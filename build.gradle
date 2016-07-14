@@ -1,0 +1,43 @@
+//所有子项目通用的配置
+subprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'maven'       //添加 Maven 插件, 可以实现基本所有的 Maven 配置
+    apply plugin: 'checkstyle'  //添加 CheckStyle 插件, 用于源码的规范性检查
+
+    sourceCompatibility = 1.7   //最低兼容版本 JDK1.7
+    targetCompatibility = 1.7   //目标兼容版本 JDK1.7
+    // java文件编码方式设置为utf-8
+    [compileJava,compileTestJava,javadoc]*.options*.encoding = 'UTF-8'
+    version = '1.0-SNAPSHOT'    //这个版本号可以被 Maven 的发布信息直接引用
+    group = "com.giraffe"  //这个可以直接用于 Maven 发布信息的 GroupId
+    description = "just 4 learn spring"
+
+    repositories {
+        mavenCentral()      //使用中央仓库
+    }
+
+    //版本变量
+    ext {
+        junitVersion = '4.12'
+        springVersion = '4.2.3.RELEASE'
+        sl4jVersion = '1.7.5'
+        logbackVersion = '1.0.13'
+    }
+
+    dependencies {
+        // 通用依赖
+        compile(
+                "org.springframework:spring-context:${springVersion}",
+                "org.slf4j:slf4j-api:${sl4jVersion}",
+                "ch.qos.logback:logback-classic:${logbackVersion}",
+        )
+
+        testCompile(
+                "junit:junit:${junitVersion}",
+                "org.springframework:spring-test:${springVersion}"
+        )
+    }
+}
